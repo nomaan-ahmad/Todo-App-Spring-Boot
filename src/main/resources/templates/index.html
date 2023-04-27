@@ -11,9 +11,10 @@
 <div class="container">
     <h1 class="text-center">Todo List</h1>
     <hr/>
+    <p th:text="|Happy, ${today} 👋|">Today</p>
     <table class="table table-bordered table-striped">
         <thead>
-        <tr>
+        <tr style="background-color:black; color:white">
             <th>Actions</th>
             <th>ID</th>
             <th>Description</th>
@@ -23,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${todoItems}" th:class="${item.complete} ? success : warning">
+        <tr th:each="item : ${todoItems}" th:style="${item.complete} ? 'background-color:#5cb85c' : 'background-color:#f7f7f7'">
             <td>
                 <div class="btn btn-group-sm" role="group">
                     <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">Edit</a>
