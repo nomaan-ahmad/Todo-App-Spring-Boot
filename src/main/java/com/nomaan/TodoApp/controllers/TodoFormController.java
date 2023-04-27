@@ -23,6 +23,11 @@ public class TodoFormController {
         this.todoItemRepository = todoItemRepository;
     }
 
+    @GetMapping(value = "/create-todo")
+    public String showCreateForm (TodoItem todoItem) {
+        return "add-todo-item";
+    }
+
     @GetMapping(value = "/edit/{id}")
     public String showUpdateForm (@PathVariable("id") long id, Model model) {
         TodoItem todoItem = todoItemRepository.findById(id)
@@ -30,6 +35,18 @@ public class TodoFormController {
 
         model.addAttribute("todo", todoItem);
         return "update-todo-item.html";
+    }
+    
+    @PostMapping(value = "/todo")
+    public String createTodoItem (@Valid TodoItem todoItem, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "add-todo-item";
+        }
+
+        todoItem.setCreatedDate(Instant.now());
+        todoItem.setModifiedDate(Instant.now());
+        todoItemRepository.save(todoItem);
+        return "redirect:/";
     }
 
     @PostMapping(value = "/todo/{id}")
